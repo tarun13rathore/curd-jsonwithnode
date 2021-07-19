@@ -1,4 +1,4 @@
-const userRoutes = (app, fs) => {
+const courseRoutes = (app, fs) => {
   // variables
   const dataPath = "./db.json";
 
@@ -35,53 +35,53 @@ const userRoutes = (app, fs) => {
 
   // READ
   // Notice how we can make this 'read' operation much more simple now.
-  app.get("/users", (req, res) => {
+  app.get("/course", (req, res) => {
     readFile((data) => {
       res.send(data);
     }, true);
   });
 
-  //add new user-----------------------ok
-  app.post("/users", (req, res) => {
+  //add new course-----------------------ok
+  app.post("/course", (req, res) => {
     readFile((data) => {
       // Note: this needs to be more robust for production use.
       // e.g. use a UUID or some kind of GUID for a unique ID value.
-      const newUserId = Date.now().toString();
+      const newCourseId = Date.now().toString();
 
-      // add the new user
-      data[newUserId] = req.body;
+      // add the new course
+      data[newCourseId] = req.body;
 
       writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send("new user added");
+        res.status(200).send("new course added");
       });
     }, true);
   });
 
   // UPDATE
-  app.put("/users/:id", (req, res) => {
+  app.put("/course/:id", (req, res) => {
     readFile((data) => {
-      // add the new user
-      const userId = req.params["id"];
-      data[userId] = req.body;
+      // add the new course
+      const courseId = req.params["id"];
+      data[courseId] = req.body;
 
       writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send(`users id:${userId} updated`);
+        res.status(200).send(`course id:${courseId} updated`);
       });
     }, true);
   });
 
   // DELETE
-  app.delete("/users/:id", (req, res) => {
+  app.delete("/course/:id", (req, res) => {
     readFile((data) => {
-      // add the new user
-      const userId = req.params["id"];
-      delete data[userId];
+      // add the new course
+      const courseId = req.params["id"];
+      delete data[courseId];
 
       writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send(`users id:${userId} removed`);
+        res.status(200).send(`course id:${courseId} removed`);
       });
     }, true);
   });
 };
 
-module.exports = userRoutes;
+module.exports = courseRoutes;
